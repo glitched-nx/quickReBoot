@@ -37,14 +37,14 @@ include $(DEVKITPRO)/libnx/switch_rules
 #   of a homebrew executable (.nro). This is intended to be used for sysmodules.
 #   NACP building is skipped as well.
 #---------------------------------------------------------------------------------
-APP_TITLE	:=	Studious Pancake
-APP_AUTHOR	:=	HookedBehemoth
+APP_TITLE	:=	quick-ReLoader
+APP_AUTHOR	:=	HookedBehemoth, glitched-nx
 APP_VERSION	:=	$(VERSION)
 
 TARGET		:=	overlay/$(notdir $(CURDIR))
 BUILD		:=	build.ovl
 SOURCES		:=	common overlay
-INCLUDES	:=	common lib\libtesla\include
+INCLUDES	:=	common lib/libtesla/include lib/libultra/include
 
 NO_ICON		:=  1
 

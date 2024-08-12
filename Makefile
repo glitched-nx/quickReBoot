@@ -15,8 +15,8 @@ clean:
 
 dist: all
 	mkdir -p dist/switch/.overlays
-	cp overlay/studious-pancake.ovl dist/switch/.overlays/
-	cp applet/studious-pancake.nro dist/switch/
-	cd dist; zip -r studious-pancake-$(VERSION)-$(GITHASH).zip ./**/; cd ../;
+	cp overlay/quickReLoader.ovl dist/switch/.overlays/
+	cp applet/quickReLoader.nro dist/switch/
+	cd dist; zip -r quickReLoader-$(VERSION)-$(GITHASH).zip ./**/; cd ../;
 
 .PHONY: all applet overlay
