@@ -3745,65 +3745,65 @@ namespace tsl {
 
                 }
                 
-                if (this->m_title == CAPITAL_ULTRAHAND_PROJECT_NAME) {
-                    renderer->drawString(versionLabel.c_str(), false, 20, y+25, 15, a(versionTextColor));
-                } else
-                    renderer->drawString(this->m_subtitle.c_str(), false, 20, y+20, 15, a(versionTextColor));
-                
-                renderer->drawRect(15, tsl::cfg::FramebufferHeight - 73, tsl::cfg::FramebufferWidth - 30, 1, a(botttomSeparatorColor));
-                
-                backWidth = renderer->calculateStringWidth(BACK, 23);
-                if (touchingBack) {
-                    renderer->drawRoundedRect(18.0f, static_cast<float>(cfg::FramebufferHeight - 73), 
-                                              backWidth+68.0f, 73.0f, 6.0f, a(clickColor));
-                }
+if (this->m_title == CAPITAL_ULTRAHAND_PROJECT_NAME) {
+    renderer->drawString(versionLabel.c_str(), false, 20, y+25, 15, a(versionTextColor));
+} else {
+    renderer->drawString(this->m_subtitle.c_str(), false, 20, y+20, 15, a(versionTextColor));
+}
 
-                selectWidth = renderer->calculateStringWidth(OK, 23);
-                if (touchingSelect) {
-                    renderer->drawRoundedRect(18.0f + backWidth+68.0f, static_cast<float>(cfg::FramebufferHeight - 73), 
-                                              selectWidth+68.0f, 73.0f, 6.0f, a(clickColor));
-                }
-                
-                if (!(this->m_pageLeftName).empty()) {
-                    nextPageWidth = renderer->calculateStringWidth(this->m_pageLeftName, 23);
-                } else if (!(this->m_pageRightName).empty()) {
-                    nextPageWidth = renderer->calculateStringWidth(this->m_pageRightName, 23);
-                } else if (inMainMenu) {
-                    if (inOverlaysPage) {
-                        nextPageWidth = renderer->calculateStringWidth(PACKAGES, 23);
-                    } else if (inPackagesPage) {
-                        nextPageWidth = renderer->calculateStringWidth(OVERLAYS, 23);
-                    }
-                }
+renderer->drawRect(15, tsl::cfg::FramebufferHeight - 73, tsl::cfg::FramebufferWidth - 30, 1, a(botttomSeparatorColor));
 
-                if (inMainMenu || !(this->m_pageLeftName).empty() || !(this->m_pageRightName).empty()) {
-                    if (touchingNextPage) {
-                        renderer->drawRoundedRect(18.0f + backWidth + 68.0f + selectWidth + 68.0f, static_cast<float>(cfg::FramebufferHeight - 73), 
-                                                  nextPageWidth + 70.0f, 73.0f, 6.0f, a(clickColor));
-                    }
-                }
+backWidth = renderer->calculateStringWidth(BACK, 23);
+if (touchingBack) {
+    renderer->drawRoundedRect(18.0f, static_cast<float>(cfg::FramebufferHeight - 73), 
+                              backWidth+68.0f, 73.0f, 6.0f, a(clickColor));
+}
 
-                menuBottomLine = "\uE0E1"+GAP_2+BACK+GAP_1+"\uE0E0"+GAP_2+OK+GAP_1;
-                if (this->m_menuMode == "packages") {
-                    menuBottomLine += "\uE0ED"+GAP_2+OVERLAYS;
-                } else if (this->m_menuMode == "overlays") {
-                    menuBottomLine += "\uE0EE"+GAP_2+PACKAGES;
-                }
-                
-                if (!(this->m_pageLeftName).empty()) {
-                    menuBottomLine += "\uE0ED"+GAP_2 + this->m_pageLeftName;
-                } else if (!(this->m_pageRightName).empty()) {
-                    menuBottomLine += "\uE0EE"+GAP_2 + this->m_pageRightName;
-                }
-                
-                //renderer->drawString(menuBottomLine.c_str(), false, 30, 693, 23, a(defaultTextColor));
-                // Render the text with special character handling
-                renderer->drawStringWithColoredSections(menuBottomLine.c_str(), {"\uE0E1","\uE0E0","\uE0ED","\uE0EE"}, 30, 693, 23, a(bottomTextColor), a(buttonColor));
-                
-                
-                if (this->m_contentElement != nullptr)
-                    this->m_contentElement->frame(renderer);
-            }
+selectWidth = renderer->calculateStringWidth(OK, 23);
+if (touchingSelect) {
+    renderer->drawRoundedRect(18.0f + backWidth+68.0f, static_cast<float>(cfg::FramebufferHeight - 73), 
+                              selectWidth+68.0f, 73.0f, 6.0f, a(clickColor));
+}
+
+if (!(this->m_pageLeftName).empty()) {
+    nextPageWidth = renderer->calculateStringWidth(this->m_pageLeftName, 23);
+} else if (!(this->m_pageRightName).empty()) {
+    nextPageWidth = renderer->calculateStringWidth(this->m_pageRightName, 23);
+} else if (inMainMenu) {
+    if (inOverlaysPage) {
+        nextPageWidth = renderer->calculateStringWidth(PACKAGES, 23);
+    } else if (inPackagesPage) {
+        nextPageWidth = renderer->calculateStringWidth(OVERLAYS, 23);
+    }
+}
+
+if (inMainMenu || !(this->m_pageLeftName).empty() || !(this->m_pageRightName).empty()) {
+    if (touchingNextPage) {
+        renderer->drawRoundedRect(18.0f + backWidth + 68.0f + selectWidth + 68.0f, static_cast<float>(cfg::FramebufferHeight - 73), 
+                                  nextPageWidth + 70.0f, 73.0f, 6.0f, a(clickColor));
+    }
+}
+
+menuBottomLine = "\uE0E1"+GAP_2+BACK+GAP_1+"\uE0E0"+GAP_2+OK+GAP_1;
+if (this->m_menuMode == "packages") {
+    menuBottomLine += "\uE0ED"+GAP_2+OVERLAYS;
+} else if (this->m_menuMode == "overlays") {
+    menuBottomLine += "\uE0EE"+GAP_2+PACKAGES;
+}
+
+if (!(this->m_pageLeftName).empty()) {
+    menuBottomLine += "\uE0ED"+GAP_2 + this->m_pageLeftName;
+} else if (!(this->m_pageRightName).empty()) {
+    menuBottomLine += "\uE0EE"+GAP_2 + this->m_pageRightName;
+}
+
+//renderer->drawString(menuBottomLine.c_str(), false, 30, 693, 23, a(defaultTextColor));
+// Render the text with special character handling
+renderer->drawStringWithColoredSections(menuBottomLine.c_str(), {"\uE0E1","\uE0E0","\uE0ED","\uE0EE"}, 30, 693, 23, a(bottomTextColor), a(buttonColor));
+
+if (this->m_contentElement != nullptr) {
+    this->m_contentElement->frame(renderer);
+}
             // CUSTOM SECTION END
             
             virtual void layout(u16 parentX, u16 parentY, u16 parentWidth, u16 parentHeight) override {
