@@ -1,7 +1,0 @@
-[submodule "lib/libtesla"]
-    path = lib/libtesla
-    url = https://github.com/glitched-nx/ultrahand.git
-
-[submodule "lib/libultra"]
-    path = lib/libultra
-    url = https://github.com/glitched-nx/ultrahand.git
