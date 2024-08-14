@@ -111,7 +111,7 @@ std::string hexToDecimal(const std::string& hexStr) {
     // Iterate over each character in the hexadecimal string
     for (size_t i = 0; i < len; ++i) {
         char hexChar = hexStr[i];
-        int value;
+        int value = 0; // Initialize value to 0
 
         // Convert hex character to its decimal value
         if (hexChar >= '0' && hexChar <= '9') {
@@ -121,7 +121,7 @@ std::string hexToDecimal(const std::string& hexStr) {
         } else if (hexChar >= 'a' && hexChar <= 'f') {
             value = 10 + (hexChar - 'a');
         } else {
-            //throw std::invalid_argument("Invalid hexadecimal character");
+            throw std::invalid_argument("Invalid hexadecimal character");
         }
 
         // Update the decimal value
@@ -131,9 +131,6 @@ std::string hexToDecimal(const std::string& hexStr) {
     // Convert the decimal value to a string
     return std::to_string(decimalValue);
 }
-
-
-
 std::string hexToReversedHex(const std::string& hexadecimal, int order = 2) {
     // Reverse the hexadecimal string in groups of order
     std::string reversedHex;

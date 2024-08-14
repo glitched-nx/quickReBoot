@@ -3762,25 +3762,25 @@ namespace tsl {
                                               selectWidth+68.0f, 73.0f, 6.0f, a(clickColor));
                 }
                 
-                if (!(this->m_pageLeftName).empty())
+                if (!(this->m_pageLeftName).empty()) {
                     nextPageWidth = renderer->calculateStringWidth(this->m_pageLeftName, 23);
-                else if (!(this->m_pageRightName).empty())
+                } else if (!(this->m_pageRightName).empty()) {
                     nextPageWidth = renderer->calculateStringWidth(this->m_pageRightName, 23);
-                else if (inMainMenu)
-                    if (inOverlaysPage)
-                        nextPageWidth = renderer->calculateStringWidth(PACKAGES,23);
-                    else if (inPackagesPage)
-                        nextPageWidth = renderer->calculateStringWidth(OVERLAYS,23);
-
-                if (inMainMenu || !(this->m_pageLeftName).empty() || !(this->m_pageRightName).empty()) {
-                    if (touchingNextPage) {
-                        renderer->drawRoundedRect(18.0f + backWidth+68.0f + selectWidth+68.0f, static_cast<float>(cfg::FramebufferHeight - 73), 
-                                                  nextPageWidth+70.0f, 73.0f, 6.0f, a(clickColor));
+                } else if (inMainMenu) {
+                    if (inOverlaysPage) {
+                        nextPageWidth = renderer->calculateStringWidth(PACKAGES, 23);
+                    } else if (inPackagesPage) {
+                        nextPageWidth = renderer->calculateStringWidth(OVERLAYS, 23);
                     }
                 }
 
-
-
+                if (inMainMenu || !(this->m_pageLeftName).empty() || !(this->m_pageRightName).empty()) {
+                    if (touchingNextPage) {
+                        renderer->drawRoundedRect(18.0f + backWidth + 68.0f + selectWidth + 68.0f, static_cast<float>(cfg::FramebufferHeight - 73), 
+                                                nextPageWidth + 70.0f, 73.0f, 6.0f, a(clickColor));
+                    }
+                }
+                
                 menuBottomLine = "\uE0E1"+GAP_2+BACK+GAP_1+"\uE0E0"+GAP_2+OK+GAP_1;
                 if (this->m_menuMode == "packages") {
                     menuBottomLine += "\uE0ED"+GAP_2+OVERLAYS;
