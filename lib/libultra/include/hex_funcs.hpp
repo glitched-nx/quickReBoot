@@ -104,46 +104,44 @@ std::string decimalToHex(const std::string& decimalStr) {
  * @return The corresponding decimal string.
  */
 std::string hexToDecimal(const std::string& hexStr) {
-    // Convert hexadecimal string to integer
-    int decimalValue = 0;
-    size_t len = hexStr.length();
+    int decimalValue = 0; // Initialize decimalValue
 
-    // Iterate over each character in the hexadecimal string
+    if (!isValidHex(hexStr)) {
+        //throw std::invalid_argument("Invalid hexadecimal string");
+        return "";
+    }
+
+    size_t len = hexStr.length();
     for (size_t i = 0; i < len; ++i) {
         char hexChar = hexStr[i];
         int value;
 
-        // Convert hex character to its decimal value
         if (hexChar >= '0' && hexChar <= '9') {
             value = hexChar - '0';
         } else if (hexChar >= 'A' && hexChar <= 'F') {
             value = 10 + (hexChar - 'A');
-        } else if (hexChar >= 'a' && hexChar <= 'f') {
+        } else if (hexChar >= 'a' && hexChar <= 'f')
             value = 10 + (hexChar - 'a');
         } else {
-            //throw std::invalid_argument("Invalid hexadecimal character");
+            return ""; // Invalid hexadecimal character
         }
 
-        // Update the decimal value
         decimalValue = decimalValue * 16 + value;
     }
 
-    // Convert the decimal value to a string
     return std::to_string(decimalValue);
 }
 
-
-
-std::string hexToReversedHex(const std::string& hexadecimal, int order = 2) {
-    // Reverse the hexadecimal string in groups of order
-    std::string reversedHex;
-    for (int i = hexadecimal.length() - order; i >= 0; i -= order) {
-        reversedHex += hexadecimal.substr(i, order);
+// Function to check if a string is a valid hexadecimal representation
+bool isValidHex(const std::string& hexStr) {
+    for (char c : hexStr) {
+        if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f')) {
+            continue;
+        }
+        return false;
     }
-    
-    return reversedHex;
+    return true;
 }
-
 /**
  * @brief Converts a decimal string to a reversed hexadecimal string.
  *
