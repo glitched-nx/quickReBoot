@@ -44,7 +44,7 @@ APP_VERSION	:=	$(VERSION)
 TARGET		:=	overlay/$(notdir $(CURDIR))
 BUILD		:=	build.ovl
 SOURCES		:=	common overlay
-INCLUDES	:=	common lib/libtesla/include lib/libultra/include
+INCLUDES	:=	common lib/libtesla/include
 
 NO_ICON		:=  1
 
