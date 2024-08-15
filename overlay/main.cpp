@@ -21,30 +21,48 @@
 
 namespace {
 
+    /**
+     * @brief Titel der Anwendung.
+     */
     constexpr const char AppTitle[] = APP_TITLE;
+
+    /**
+     * @brief Version der Anwendung.
+     */
     constexpr const char AppVersion[] = APP_VERSION;
 
 }
 
+/**
+ * @brief Klasse zur Darstellung der GUI für Pancake.
+ */
 class PancakeGui : public tsl::Gui {
   private:
-    Payload::HekateConfigList const boot_config_list;
-    Payload::HekateConfigList const ini_config_list;
-    Payload::PayloadConfigList const payload_config_list;
+    Payload::HekateConfigList const boot_config_list; ///< Liste der Boot-Konfigurationen.
+    Payload::HekateConfigList const ini_config_list;  ///< Liste der INI-Konfigurationen.
+    Payload::PayloadConfigList const payload_config_list; ///< Liste der Payload-Konfigurationen.
 
   public:
+    /**
+     * @brief Konstruktor, der die Konfigurationslisten lädt.
+     */
     PancakeGui()
         : boot_config_list(Payload::LoadHekateConfigList()),
           ini_config_list(Payload::LoadIniConfigList()),
           payload_config_list(Payload::LoadPayloadList()) {
     }
 
+    /**
+     * @brief Erstellt die Benutzeroberfläche.
+     * 
+     * @return Zeiger auf das erstellte UI-Element.
+     */
     virtual tsl::elm::Element *createUI() override {
         auto const frame = new tsl::elm::OverlayFrame(AppTitle, AppVersion);
 
         auto const list = new tsl::elm::List();
 
-        /* Append boot config entries. */
+        /* Boot-Konfigurationseinträge hinzufügen. */
         if (!boot_config_list.empty()) {
             list->addItem(new tsl::elm::CategoryHeader("reLoads to..."));
 
@@ -55,7 +73,7 @@ class PancakeGui : public tsl::Gui {
             }
         }
 
-        /* Append ini config entries. */
+        /* INI-Konfigurationseinträge hinzufügen. */
         if (!ini_config_list.empty()) {
             list->addItem(new tsl::elm::CategoryHeader("Hekate - More Configs"));
 
@@ -66,14 +84,14 @@ class PancakeGui : public tsl::Gui {
             }
         }
 
-        /* Miscellaneous. */
+        /* Verschiedene Einträge hinzufügen. */
         list->addItem(new tsl::elm::CategoryHeader("Various reLoads"));
 
         auto const ums = new tsl::elm::ListItem("reLoad to UMS");
         ums->setClickListener([](u64 const keys) -> bool { return (keys & HidNpadButton_A) && Payload::RebootToHekateUMS(Payload::UmsTarget_Sd); });
         list->addItem(ums);
 
-        /* Payloads */
+        /* Payloads hinzufügen. */
         if (util::IsErista() && !payload_config_list.empty()) {
             list->addItem(new tsl::elm::CategoryHeader("payloads"));
 
@@ -88,6 +106,16 @@ class PancakeGui : public tsl::Gui {
         return frame;
     }
 
+    /**
+     * @brief Verarbeitet die Benutzereingaben.
+     * 
+     * @param keysDown Gedrückte Tasten.
+     * @param keysHeld Gehaltene Tasten.
+     * @param touchPos Position der Berührung.
+     * @param joyStickPosLeft Position des linken Analogsticks.
+     * @param joyStickPosRight Position des rechten Analogsticks.
+     * @return true, wenn die Eingabe verarbeitet wurde, sonst false.
+     */
     virtual bool handleInput(u64 const keysDown, u64 const keysHeld, const HidTouchState &touchPos, HidAnalogStickState const joyStickPosLeft, HidAnalogStickState const joyStickPosRight) {
         if (keysDown & HidNpadButton_Minus)
             Payload::RebootToHekate();
@@ -99,9 +127,15 @@ class PancakeGui : public tsl::Gui {
 
         return false;
     }
-};
-
+/**
+ * @brief Klasse zur Anzeige einer GUI, die den Benutzer auffordert, Atmosphère zu aktualisieren.
+ */
 class PleaseUpdateGui final : public tsl::Gui {
+    /**
+     * @brief Erstellt die Benutzeroberfläche.
+     * 
+     * @return Zeiger auf das erstellte UI-Element.
+     */
     virtual tsl::elm::Element *createUI() override {
         auto const frame = new tsl::elm::OverlayFrame(AppTitle, AppVersion);
 
@@ -120,8 +154,14 @@ class PleaseUpdateGui final : public tsl::Gui {
     }
 };
 
+/**
+ * @brief Klasse zur Verwaltung des Overlays für Pancake.
+ */
 class PancakeOverlay final : public tsl::Overlay {
   public:
+    /**
+     * @brief Initialisiert die benötigten Dienste.
+     */
     virtual void initServices() override {
         fsdevMountSdmc();
         splInitialize();
@@ -129,6 +169,9 @@ class PancakeOverlay final : public tsl::Overlay {
         i2cInitialize();
     }
 
+    /**
+     * @brief Beendet die initialisierten Dienste.
+     */
     virtual void exitServices() override {
         i2cExit();
         spsmExit();
@@ -136,6 +179,11 @@ class PancakeOverlay final : public tsl::Overlay {
         fsdevUnmountAll();
     }
 
+    /**
+     * @brief Lädt die initiale GUI.
+     * 
+     * @return Ein einzigartiger Zeiger auf die geladene GUI.
+     */
     virtual std::unique_ptr<tsl::Gui> loadInitialGui() override {
         if (!util::IsErista() && !util::SupportsMarikoRebootToConfig()) {
             return std::make_unique<PleaseUpdateGui>();
@@ -145,6 +193,13 @@ class PancakeOverlay final : public tsl::Overlay {
     }
 };
 
+/**
+ * @brief Der Haupteinstiegspunkt der Anwendung.
+ * 
+ * @param argc Anzahl der Argumente.
+ * @param argv Array der Argumente.
+ * @return Rückgabewert des Programms.
+ */
 int main(int argc, char **argv) {
     return tsl::loop<PancakeOverlay>(argc, argv);
 }

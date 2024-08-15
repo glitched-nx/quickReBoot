@@ -23,8 +23,19 @@
 
 namespace {
 
+    /**
+     * @brief Typedef für eine Callback-Funktion, die einen konstanten Zeiger auf Benutzerdaten akzeptiert.
+     */
     typedef void (*TuiCallback)(void const *const user);
 
+    /**
+     * @brief Struktur zur Darstellung eines TUI-Elements.
+     * 
+     * @param text Der anzuzeigende Text des Elements.
+     * @param cb Die Callback-Funktion, die beim Auswählen des Elements aufgerufen wird.
+     * @param user Ein konstanter Zeiger auf Benutzerdaten, die an die Callback-Funktion übergeben werden.
+     * @param selectable Gibt an, ob das Element auswählbar ist.
+     */
     struct TuiItem {
         std::string const text;
         TuiCallback const cb;
@@ -32,24 +43,44 @@ namespace {
         bool const selectable;
     };
 
+    /**
+     * @brief Callback-Funktion zum Neustarten in eine Hekate-Konfiguration.
+     * 
+     * @param user Ein konstanter Zeiger auf die Hekate-Konfiguration.
+     */
     void BootConfigCallback(void const *const user) {
         auto const config = reinterpret_cast<Payload::HekateConfig const *>(user);
 
         Payload::RebootToHekateConfig(*config, false);
     }
 
+    /**
+     * @brief Callback-Funktion zum Neustarten in eine Hekate-INI-Konfiguration.
+     * 
+     * @param user Ein konstanter Zeiger auf die Hekate-INI-Konfiguration.
+     */
     void IniConfigCallback(void const *const user) {
         auto const config = reinterpret_cast<Payload::HekateConfig const *>(user);
 
         Payload::RebootToHekateConfig(*config, true);
     }
 
+    /**
+     * @brief Callback-Funktion zum Neustarten in den UMS-Modus (USB Mass Storage).
+     * 
+     * @param user Ein konstanter Zeiger auf Benutzerdaten (nicht verwendet).
+     */
     void UmsCallback(void const *const user) {
         Payload::RebootToHekateUMS(Payload::UmsTarget_Sd);
 
         (void)user;
     }
 
+    /**
+     * @brief Callback-Funktion zum Neustarten in eine Payload-Konfiguration.
+     * 
+     * @param user Ein konstanter Zeiger auf die Payload-Konfiguration.
+     */
     void PayloadCallback(void const *const user) {
         auto const config = reinterpret_cast<Payload::PayloadConfig const *>(user);
 
@@ -57,18 +88,38 @@ namespace {
     }
 }
 
+/**
+ * @brief Initialisiert die Benutzeranwendung.
+ * 
+ * Initialisiert die SPSM-, SPL- und I2C-Dienste.
+ */
 extern "C" void userAppInit(void) {
     spsmInitialize();
     splInitialize();
     i2cInitialize();
 }
 
+/**
+ * @brief Beendet die Benutzeranwendung.
+ * 
+ * Beendet die I2C-, SPL- und SPSM-Dienste.
+ */
 extern "C" void userAppExit(void) {
     i2cExit();
     splExit();
     spsmExit();
 }
 
+/**
+ * @brief Hauptfunktion des Programms.
+ * 
+ * Diese Funktion initialisiert die Konsole und das Eingabesystem, lädt verfügbare Konfigurationen und Payloads,
+ * erstellt ein Menü und verarbeitet Benutzereingaben, um verschiedene Neustartoptionen zu ermöglichen.
+ * 
+ * @param argc Anzahl der Argumente.
+ * @param argv Array der Argumente.
+ * @return int Rückgabewert des Programms (EXIT_SUCCESS bei Erfolg).
+ */
 int main(int const argc, char const *argv[]) {
     if (!util::IsErista() && !util::SupportsMarikoRebootToConfig()) {
         consoleInit(nullptr);
@@ -77,15 +128,15 @@ int main(int const argc, char const *argv[]) {
 
         consoleUpdate(nullptr);
 
-        /* Configure input */
+        /* Konfiguriere Eingabe */
         padConfigureInput(8, HidNpadStyleSet_NpadStandard);
 
-        /* Initialize pad */
+        /* Initialisiere Pad */
         PadState pad;
         padInitializeAny(&pad);
 
         while (appletMainLoop()) {
-            /* Update padstate */
+            /* Aktualisiere Pad-Status */
             padUpdate(&pad);
 
             if (padGetButtonsDown(&pad))
@@ -98,16 +149,16 @@ int main(int const argc, char const *argv[]) {
 
     std::vector<TuiItem> items;
 
-    /* Load available boot configs */
+    /* Lade verfügbare Boot-Konfigurationen */
     auto const boot_config_list = Payload::LoadHekateConfigList();
 
-    /* Load available ini configs */
+    /* Lade verfügbare INI-Konfigurationen */
     auto const ini_config_list = Payload::LoadIniConfigList();
 
-    /* Load available payloads */
+    /* Lade verfügbare Payloads */
     auto const payload_config_list = Payload::LoadPayloadList();
 
-    /* Build menu item list */
+    /* Erstelle Menüelementliste */
     items.reserve(2 + boot_config_list.empty() ? 0 : 1 + boot_config_list.size()
                     + ini_config_list.empty()  ? 0 : 1 + ini_config_list.size()
                     + payload_config_list.empty()  ? 0 : 1 + payload_config_list.size());
@@ -144,21 +195,21 @@ int main(int const argc, char const *argv[]) {
 
     PrintConsole *const console = consoleInit(nullptr);
 
-    /* Configure input */
+    /* Konfiguriere Eingabe */
     padConfigureInput(8, HidNpadStyleSet_NpadStandard);
 
-    /* Initialize pad */
+    /* Initialisiere Pad */
     PadState pad;
     padInitializeAny(&pad);
 
-    /* Deinit sm to free up our only service slot */
+    /* Deinitialisiere sm, um unseren einzigen Dienstslot freizugeben */
     smExit();
 
     bool repaint = true;
 
     while (appletMainLoop()) {
         {
-            /* Update padstate */
+            /* Aktualisiere Pad-Status */
             padUpdate(&pad);
 
             u64 const kDown = padGetButtonsDown(&pad);
@@ -203,7 +254,7 @@ int main(int const argc, char const *argv[]) {
         if (repaint) {
             consoleClear();
 
-            std::printf("quickReLoader\n----------------\n");
+            std::printf("quickReLoader\n-------------\n");
 
             for (std::size_t i = 0; i < items.size(); i++) {
                 auto const &item    = items[i];
