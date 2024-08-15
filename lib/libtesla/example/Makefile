@@ -10,32 +10,31 @@ TOPDIR ?= $(CURDIR)
 include $(DEVKITPRO)/libnx/switch_rules
 
 #---------------------------------------------------------------------------------
-# TARGET is the name of the output
-# BUILD is the directory where object files & intermediate files will be placed
-# SOURCES is a list of directories containing source code
-# DATA is a list of directories containing data files
-# INCLUDES is a list of directories containing header files
-# ROMFS is the directory containing data to be added to RomFS, relative to the Makefile (Optional)
+# TARGET ist der Name der Ausgabedatei
+# BUILD ist das Verzeichnis, in dem Objektdateien und Zwischenprodukte abgelegt werden
+# SOURCES ist eine Liste von Verzeichnissen, die Quellcode enthalten
+# DATA ist eine Liste von Verzeichnissen, die Datendateien enthalten
+# INCLUDES ist eine Liste von Verzeichnissen, die Header-Dateien enthalten
+# ROMFS ist das Verzeichnis, das Daten enthält, die zu RomFS hinzugefügt werden sollen, relativ zum Makefile (Optional)
 #
-# NO_ICON: if set to anything, do not use icon.
-# NO_NACP: if set to anything, no .nacp file is generated.
-# APP_TITLE is the name of the app stored in the .nacp file (Optional)
-# APP_AUTHOR is the author of the app stored in the .nacp file (Optional)
-# APP_VERSION is the version of the app stored in the .nacp file (Optional)
-# APP_TITLEID is the titleID of the app stored in the .nacp file (Optional)
-# ICON is the filename of the icon (.jpg), relative to the project folder.
-#   If not set, it attempts to use one of the following (in this order):
-#     - <Project name>.jpg
+# NO_ICON: Wenn gesetzt, wird kein Icon verwendet.
+# NO_NACP: Wenn gesetzt, wird keine .nacp-Datei generiert.
+# APP_TITLE ist der Name der App, der in der .nacp-Datei gespeichert wird (Optional)
+# APP_AUTHOR ist der Autor der App, der in der .nacp-Datei gespeichert wird (Optional)
+# APP_VERSION ist die Version der App, die in der .nacp-Datei gespeichert wird (Optional)
+# APP_TITLEID ist die Titel-ID der App, die in der .nacp-Datei gespeichert wird (Optional)
+# ICON ist der Dateiname des Icons (.jpg), relativ zum Projektordner.
+#   Wenn nicht gesetzt, wird versucht, eine der folgenden Dateien zu verwenden (in dieser Reihenfolge):
+#     - <Projektname>.jpg
 #     - icon.jpg
-#     - <libnx folder>/default_icon.jpg
+#     - <libnx-Ordner>/default_icon.jpg
 #
-# CONFIG_JSON is the filename of the NPDM config file (.json), relative to the project folder.
-#   If not set, it attempts to use one of the following (in this order):
-#     - <Project name>.json
+# CONFIG_JSON ist der Dateiname der NPDM-Konfigurationsdatei (.json), relativ zum Projektordner.
+#   Wenn nicht gesetzt, wird versucht, eine der folgenden Dateien zu verwenden (in dieser Reihenfolge):
+#     - <Projektname>.json
 #     - config.json
-#   If a JSON file is provided or autodetected, an ExeFS PFS0 (.nsp) is built instead
-#   of a homebrew executable (.nro). This is intended to be used for sysmodules.
-#   NACP building is skipped as well.
+#   Wenn eine JSON-Datei bereitgestellt oder automatisch erkannt wird, wird ein ExeFS PFS0 (.nsp) anstelle einer Homebrew-Ausführungsdatei (.nro) erstellt. Dies ist für die Verwendung in Systemmodulen gedacht.
+#   Die Erstellung der NACP-Datei wird ebenfalls übersprungen.
 #---------------------------------------------------------------------------------
 
 APP_TITLE			:=		Tesla Example
@@ -67,15 +66,15 @@ LDFLAGS	=	-specs=$(DEVKITPRO)/libnx/switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*
 LIBS	:= -lnx
 
 #---------------------------------------------------------------------------------
-# list of directories containing libraries, this must be the top level containing
-# include and lib
+# Liste der Verzeichnisse, die Bibliotheken enthalten; dies muss das oberste Verzeichnis sein, das
+# include und lib enthält
 #---------------------------------------------------------------------------------
 LIBDIRS	:= $(PORTLIBS) $(LIBNX)
 
 
 #---------------------------------------------------------------------------------
-# no real need to edit anything past this point unless you need to add additional
-# rules for different file extensions
+# Ab hier ist normalerweise keine Bearbeitung erforderlich, es sei denn, es müssen zusätzliche
+# Regeln für verschiedene Dateierweiterungen hinzugefügt werden
 #---------------------------------------------------------------------------------
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 #---------------------------------------------------------------------------------
@@ -195,7 +194,7 @@ $(OUTPUT).elf	:	$(OFILES)
 $(OFILES_SRC)	: $(HFILES_BIN)
 
 #---------------------------------------------------------------------------------
-# you need a rule like this for each extension you use as binary data
+# Sie benötigen eine Regel wie diese für jede Erweiterung, die Sie als Binärdaten verwenden
 #---------------------------------------------------------------------------------
 %.bin.o	%_bin.h :	%.bin
 #---------------------------------------------------------------------------------
