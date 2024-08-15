@@ -127,6 +127,8 @@ class PancakeGui : public tsl::Gui {
 
         return false;
     }
+};
+
 /**
  * @brief Klasse zur Anzeige einer GUI, die den Benutzer auffordert, Atmosphère zu aktualisieren.
  */
