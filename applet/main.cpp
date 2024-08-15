@@ -113,19 +113,19 @@ int main(int const argc, char const *argv[]) {
                     + payload_config_list.empty()  ? 0 : 1 + payload_config_list.size());
 
     if (!boot_config_list.empty()) {
-        items.emplace_back("boot-Konfig", nullptr, nullptr, false);
+        items.emplace_back("reLoads to...", nullptr, nullptr, false);
         for (auto const &entry : boot_config_list)
             items.emplace_back(entry.name, BootConfigCallback, &entry, true);
     }
 
     if (!ini_config_list.empty()) {
-        items.emplace_back("ini-Konfig", nullptr, nullptr, false);
+        items.emplace_back("Hekate - More Configs", nullptr, nullptr, false);
         for (auto const &entry : ini_config_list)
             items.emplace_back(entry.name, IniConfigCallback, &entry, true);
     }
 
-    items.emplace_back("Diverse", nullptr, nullptr, false);
-    items.emplace_back("reLoad UMS", UmsCallback, nullptr, true);
+    items.emplace_back("Various reLoads", nullptr, nullptr, false);
+    items.emplace_back("reLoad to UMS", UmsCallback, nullptr, true);
 
     if (util::IsErista() && !payload_config_list.empty()) {
         items.emplace_back("payloads", nullptr, nullptr, false);

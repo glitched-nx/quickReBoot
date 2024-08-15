@@ -46,7 +46,7 @@ class PancakeGui : public tsl::Gui {
 
         /* Append boot config entries. */
         if (!boot_config_list.empty()) {
-            list->addItem(new tsl::elm::CategoryHeader("boot-Konfiguration"));
+            list->addItem(new tsl::elm::CategoryHeader("reLoads to..."));
 
             for (auto const &config : boot_config_list) {
                 auto const entry = new tsl::elm::ListItem(config.name);
@@ -57,7 +57,7 @@ class PancakeGui : public tsl::Gui {
 
         /* Append ini config entries. */
         if (!ini_config_list.empty()) {
-            list->addItem(new tsl::elm::CategoryHeader("ini-Konfiguration"));
+            list->addItem(new tsl::elm::CategoryHeader("Hekate - More Configs"));
 
             for (auto const &config : ini_config_list) {
                 auto const entry = new tsl::elm::ListItem(config.name);
@@ -67,9 +67,9 @@ class PancakeGui : public tsl::Gui {
         }
 
         /* Miscellaneous. */
-        list->addItem(new tsl::elm::CategoryHeader("diverses"));
+        list->addItem(new tsl::elm::CategoryHeader("Various reLoads"));
 
-        auto const ums = new tsl::elm::ListItem("reload Hekate-UMS");
+        auto const ums = new tsl::elm::ListItem("reLoad to UMS");
         ums->setClickListener([](u64 const keys) -> bool { return (keys & HidNpadButton_A) && Payload::RebootToHekateUMS(Payload::UmsTarget_Sd); });
         list->addItem(ums);
 
