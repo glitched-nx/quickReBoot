@@ -175,7 +175,7 @@ int main(int const argc, char const *argv[]) {
             items.emplace_back(entry.name, IniConfigCallback, &entry, true);
     }
 
-    items.emplace_back("Various reLoads", nullptr, nullptr, false);
+    items.emplace_back("Various ReLoads", nullptr, nullptr, false);
     items.emplace_back("reLoad to UMS", UmsCallback, nullptr, true);
 
     if (util::IsErista() && !payload_config_list.empty()) {
