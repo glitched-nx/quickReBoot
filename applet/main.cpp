@@ -73,7 +73,7 @@ int main(int const argc, char const *argv[]) {
     if (!util::IsErista() && !util::SupportsMarikoRebootToConfig()) {
         consoleInit(nullptr);
 
-        printf("Update to at least Atmosphère 1.6.1\n");
+        printf("min. Atmosphère 1.6.1\n");
 
         consoleUpdate(nullptr);
 
@@ -113,19 +113,19 @@ int main(int const argc, char const *argv[]) {
                     + payload_config_list.empty()  ? 0 : 1 + payload_config_list.size());
 
     if (!boot_config_list.empty()) {
-        items.emplace_back("Boot Configs", nullptr, nullptr, false);
+        items.emplace_back("quickReLoad to...", nullptr, nullptr, false);
         for (auto const &entry : boot_config_list)
             items.emplace_back(entry.name, BootConfigCallback, &entry, true);
     }
 
     if (!ini_config_list.empty()) {
-        items.emplace_back("Ini Configs", nullptr, nullptr, false);
+        items.emplace_back("Hekate More Configs", nullptr, nullptr, false);
         for (auto const &entry : ini_config_list)
             items.emplace_back(entry.name, IniConfigCallback, &entry, true);
     }
 
-    items.emplace_back("Miscellaneous", nullptr, nullptr, false);
-    items.emplace_back("Reboot to UMS", UmsCallback, nullptr, true);
+    items.emplace_back("Other Stuff", nullptr, nullptr, false);
+    items.emplace_back("ReLoad SD-UMS", UmsCallback, nullptr, true);
 
     if (util::IsErista() && !payload_config_list.empty()) {
         items.emplace_back("Payloads", nullptr, nullptr, false);
@@ -203,7 +203,7 @@ int main(int const argc, char const *argv[]) {
         if (repaint) {
             consoleClear();
 
-            std::printf("Studious Pancake\n----------------\n");
+            std::printf("quickReLoader\n-------------\n");
 
             for (std::size_t i = 0; i < items.size(); i++) {
                 auto const &item    = items[i];

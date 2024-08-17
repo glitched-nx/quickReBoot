@@ -46,7 +46,7 @@ class PancakeGui : public tsl::Gui {
 
         /* Append boot config entries. */
         if (!boot_config_list.empty()) {
-            list->addItem(new tsl::elm::CategoryHeader("Boot configs"));
+            list->addItem(new tsl::elm::CategoryHeader("quickReLoad to..."));
 
             for (auto const &config : boot_config_list) {
                 auto const entry = new tsl::elm::ListItem(config.name);
@@ -57,7 +57,7 @@ class PancakeGui : public tsl::Gui {
 
         /* Append ini config entries. */
         if (!ini_config_list.empty()) {
-            list->addItem(new tsl::elm::CategoryHeader("Ini configs"));
+            list->addItem(new tsl::elm::CategoryHeader("Hekate More Configs"));
 
             for (auto const &config : ini_config_list) {
                 auto const entry = new tsl::elm::ListItem(config.name);
@@ -67,9 +67,9 @@ class PancakeGui : public tsl::Gui {
         }
 
         /* Miscellaneous. */
-        list->addItem(new tsl::elm::CategoryHeader("Miscellaneous"));
+        list->addItem(new tsl::elm::CategoryHeader("Other Stuff"));
 
-        auto const ums = new tsl::elm::ListItem("Reboot to UMS");
+        auto const ums = new tsl::elm::ListItem("ReLoad SD-UMS");
         ums->setClickListener([](u64 const keys) -> bool { return (keys & HidNpadButton_A) && Payload::RebootToHekateUMS(Payload::UmsTarget_Sd); });
         list->addItem(ums);
 
@@ -107,7 +107,7 @@ class PleaseUpdateGui final : public tsl::Gui {
 
         auto const custom = new tsl::elm::CustomDrawer([msgW = 0, msgH = 0](tsl::gfx::Renderer *drawer, u16 x, u16 y, u16 w, u16 h) mutable {
             drawer->drawString("\uE150", false, x + (w / 2) - (90 / 2), 300, 90, 0xffff);
-            auto [width, height] = drawer->drawString("Update to at least\nAtmosphère 1.6.1", false, x + (w / 2) - (msgW / 2), 380, 25, 0xffff);
+            auto [width, height] = drawer->drawString("min. Atmosphère 1.6.1\n", false, x + (w / 2) - (msgW / 2), 380, 25, 0xffff);
             if (msgW == 0) {
                 msgW = width;
                 msgH = height;
