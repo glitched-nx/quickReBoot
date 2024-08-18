@@ -22,7 +22,6 @@
 #include "ini.h"
 
 #include <unistd.h>
-#include <cstdio>
 #include <cstring>
 #include <dirent.h>
 #include <algorithm>
@@ -279,6 +278,21 @@ namespace Payload {
             Max77620Rtc::rtc_reboot_reason_t rr {.dec = {
                 .reason = Max77620Rtc::REBOOT_REASON_UMS,
                 .ums_idx = target,
+            }};
+            return Max77620Rtc::Reboot(&rr);
+        }
+    }
+
+    bool RebootToHekateMenu() { // CUSTOM MODIFICATION
+        if (util::IsErista()) {
+            return Reboot([&] (BootStorage *storage) {
+                /* Force boot to menu */
+                storage->boot_cfg  = BootCfg_ForceAutoBoot;
+                storage->autoboot  = 0;
+            });
+        } else {
+            Max77620Rtc::rtc_reboot_reason_t rr {.dec = {
+                .reason = Max77620Rtc::REBOOT_REASON_MENU,
             }};
             return Max77620Rtc::Reboot(&rr);
         }
