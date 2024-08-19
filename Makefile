@@ -4,10 +4,10 @@ export VERSION 		:= 1.5.0
 all: applet overlay dist
 
 applet:
-    $(MAKE) -f Makefile.applet
+    $(make) -f Makefile.applet
 
 overlay:
-    $(MAKE) -f Makefile.overlay
+    $(make) -f Makefile.overlay
 
 dist: applet overlay
     mkdir -p dist/switch/.overlays
