@@ -119,16 +119,16 @@ int main(int const argc, char const *argv[]) {
     }
 
     if (!ini_config_list.empty()) {
-        items.emplace_back("Hekate More Configs", nullptr, nullptr, false);
+        items.emplace_back("more reLoads", nullptr, nullptr, false);
         for (auto const &entry : ini_config_list)
             items.emplace_back(entry.name, IniConfigCallback, &entry, true);
     }
 
-    items.emplace_back("Other Stuff", nullptr, nullptr, false);
-    items.emplace_back("ReLoad SD-UMS", UmsCallback, nullptr, true);
+    items.emplace_back("other Stuff", nullptr, nullptr, false);
+    items.emplace_back("SD <-UMS-> PC", UmsCallback, nullptr, true);
 
     if (util::IsErista() && !payload_config_list.empty()) {
-        items.emplace_back("Payloads", nullptr, nullptr, false);
+        items.emplace_back("payloads", nullptr, nullptr, false);
         for (auto const &entry : payload_config_list)
             items.emplace_back(entry.name, PayloadCallback, &entry, true);
     }
@@ -203,7 +203,7 @@ int main(int const argc, char const *argv[]) {
         if (repaint) {
             consoleClear();
 
-            std::printf("quickReLoader\n-------------\n");
+            std::printf("  quickReLoader\n  -------------\n");
 
             for (std::size_t i = 0; i < items.size(); i++) {
                 auto const &item    = items[i];
