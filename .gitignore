@@ -1,8 +1,10 @@
 .vscode/
 build/
-dist
+dist/
 
 *.ovl
 *.elf
 *.nacp
 *.nro
+
+makefile.log
