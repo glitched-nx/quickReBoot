@@ -113,22 +113,22 @@ int main(int const argc, char const *argv[]) {
                     + payload_config_list.empty()  ? 0 : 1 + payload_config_list.size());
 
     if (!boot_config_list.empty()) {
-        items.emplace_back("quickReLoad to...", nullptr, nullptr, false);
+        items.emplace_back("quick reBoot -->", nullptr, nullptr, false);
         for (auto const &entry : boot_config_list)
             items.emplace_back(entry.name, BootConfigCallback, &entry, true);
     }
 
     if (!ini_config_list.empty()) {
-        items.emplace_back("more reLoads", nullptr, nullptr, false);
+        items.emplace_back("quick reBoot --> more configs", nullptr, nullptr, false);
         for (auto const &entry : ini_config_list)
             items.emplace_back(entry.name, IniConfigCallback, &entry, true);
     }
 
-    items.emplace_back("other Stuff", nullptr, nullptr, false);
-    items.emplace_back("SD <-UMS-> PC", UmsCallback, nullptr, true);
+    items.emplace_back("quick mount -->", nullptr, nullptr, false);
+    items.emplace_back("Switch SD <--UMS--> USB PC", UmsCallback, nullptr, true);
 
     if (util::IsErista() && !payload_config_list.empty()) {
-        items.emplace_back("payloads", nullptr, nullptr, false);
+        items.emplace_back("payloads -->", nullptr, nullptr, false);
         for (auto const &entry : payload_config_list)
             items.emplace_back(entry.name, PayloadCallback, &entry, true);
     }
