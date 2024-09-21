@@ -113,22 +113,22 @@ int main(int const argc, char const *argv[]) {
                     + payload_config_list.empty()  ? 0 : 1 + payload_config_list.size());
 
     if (!boot_config_list.empty()) {
-        items.emplace_back("quick reBoot -->", nullptr, nullptr, false);
+        items.emplace_back("quickReBoot to OS ->", nullptr, nullptr, false);
         for (auto const &entry : boot_config_list)
             items.emplace_back(entry.name, BootConfigCallback, &entry, true);
     }
 
     if (!ini_config_list.empty()) {
-        items.emplace_back("quick reBoot --> more configs", nullptr, nullptr, false);
+        items.emplace_back("quickReBoot to INI ->", nullptr, nullptr, false);
         for (auto const &entry : ini_config_list)
             items.emplace_back(entry.name, IniConfigCallback, &entry, true);
     }
 
-    items.emplace_back("quick mount -->", nullptr, nullptr, false);
-    items.emplace_back("Switch SD <--UMS--> USB PC", UmsCallback, nullptr, true);
+    items.emplace_back("quickMount ->", nullptr, nullptr, false);
+    items.emplace_back("SD-Card -> UMS", UmsCallback, nullptr, true);
 
     if (util::IsErista() && !payload_config_list.empty()) {
-        items.emplace_back("payloads -->", nullptr, nullptr, false);
+        items.emplace_back("quickReBoot to Payload ->", nullptr, nullptr, false);
         for (auto const &entry : payload_config_list)
             items.emplace_back(entry.name, PayloadCallback, &entry, true);
     }
@@ -203,7 +203,7 @@ int main(int const argc, char const *argv[]) {
         if (repaint) {
             consoleClear();
 
-            std::printf("  quickReLoader\n  -------------\n");
+            std::printf("  quickReBoot\n -------------\n");
 
             for (std::size_t i = 0; i < items.size(); i++) {
                 auto const &item    = items[i];
@@ -212,7 +212,7 @@ int main(int const argc, char const *argv[]) {
                 if (!item.selectable)
                     console->flags |= CONSOLE_COLOR_FAINT;
 
-                std::printf("%c %s\n", selected ? '>' : ' ', item.text.c_str());
+                std::printf("%c %s\n", selected ? '->' : '  ', item.text.c_str());
 
                 if (!item.selectable)
                     console->flags &= ~CONSOLE_COLOR_FAINT;
