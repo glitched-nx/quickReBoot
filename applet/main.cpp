@@ -212,7 +212,7 @@ int main(int const argc, char const *argv[]) {
                 if (!item.selectable)
                     console->flags |= CONSOLE_COLOR_FAINT;
 
-                std::printf("%c %s\n", selected ? '->' : '  ', item.text.c_str());
+                std::printf("%s %s\n", selected ? "->" : "  ", item.text.c_str());
 
                 if (!item.selectable)
                     console->flags &= ~CONSOLE_COLOR_FAINT;
