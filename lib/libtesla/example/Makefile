@@ -37,14 +37,15 @@ include $(DEVKITPRO)/libnx/switch_rules
 #   of a homebrew executable (.nro). This is intended to be used for sysmodules.
 #   NACP building is skipped as well.
 #---------------------------------------------------------------------------------
-APP_TITLE	:=	quickReBoot
-APP_AUTHOR	:=	glitched-nx
-APP_VERSION	:=	$(VERSION)
 
-TARGET		:=	overlay/$(notdir $(CURDIR))
-BUILD		:=	build.ovl
-SOURCES		:=	common overlay
-INCLUDES	:=	common lib/libultra/include lib/libtesla/include
+APP_TITLE			:=		Tesla Example
+APP_VERSION 	:= 		1.3.0
+
+TARGET		:=	$(notdir $(CURDIR))
+BUILD		:=	build
+SOURCES		:=	source
+DATA		:=	data
+INCLUDES	:=	../include
 
 NO_ICON		:=  1
 
@@ -53,10 +54,8 @@ NO_ICON		:=  1
 #---------------------------------------------------------------------------------
 ARCH	:=	-march=armv8-a+crc+crypto -mtune=cortex-a57 -mtp=soft -fPIE
 
-CFLAGS	:=	-g -Wall -Werror -O2 -ffunction-sections \
-			$(ARCH) $(DEFINES) \
-			-DAPP_VERSION="\"$(APP_VERSION)\"" \
-			-DAPP_TITLE="\"$(APP_TITLE)\""
+CFLAGS	:=	-g -Wall -O2 -ffunction-sections \
+			$(ARCH) $(DEFINES)
 
 CFLAGS	+=	$(INCLUDE) -D__SWITCH__
 
@@ -65,7 +64,7 @@ CXXFLAGS	:= $(CFLAGS) -fno-exceptions -std=c++20
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=$(DEVKITPRO)/libnx/switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:=	-lnx
+LIBS	:= -lnx
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
@@ -169,7 +168,7 @@ all: $(BUILD)
 
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
-	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile.overlay
+	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 #---------------------------------------------------------------------------------
 clean:

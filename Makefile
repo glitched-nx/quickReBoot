@@ -15,9 +15,9 @@ clean:
 
 dist:
 	mkdir -p dist/switch/.overlays
-	mkdir -p dist/switch/quickReLoader
-	cp overlay/quickReLoader.ovl dist/switch/.overlays/
-	cp applet/quickReLoader.nro dist/switch/quickReLoader/
-	cd dist; zip -r quickReLoader-$(VERSION)-$(GITHASH).zip ./**/; cd ../;
+	mkdir -p dist/switch/quickReBoot
+	cp overlay/quickReBoot.ovl dist/switch/.overlays/
+	cp applet/quickReBoot.nro dist/switch/quickReBoot/
+	cd dist; zip -r quickReBoot-$(VERSION)-$(GITHASH).zip ./**/; cd ../;
 
 .PHONY: all applet overlay
